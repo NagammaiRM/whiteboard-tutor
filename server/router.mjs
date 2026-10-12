@@ -100,7 +100,14 @@ export async function handleTutorStream(req, res) {
 
   // If no providers configured or all failed, stream using smart built-in tutor engine!
   if (!providerSuccess) {
-    sendLine({ t: 'status', provider: 'Whiteboard AI Engine', message: `Generating lesson (${explanationLevel} level)...` });
+    const noKeysConfigured = providers.length === 0;
+    sendLine({
+      t: 'status',
+      provider: 'Offline Demo (no API key)',
+      message: noKeysConfigured
+        ? 'No API key configured — using the limited offline demo. Add a free key in Settings for real answers on any topic.'
+        : `Generating lesson (${explanationLevel} level)...`
+    });
     await streamBuiltInSimulation(messages, sourceContext, isAnnotation, page, sendLine, explanationLevel);
   }
 

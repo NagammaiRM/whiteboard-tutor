@@ -52,6 +52,7 @@ html, body, #root {
 }
 
 /* Utilities for Layout */
+.hidden { display: none; }
 .flex { display: flex; }
 .flex-1 { flex: 1 1 0%; }
 .flex-col { flex-direction: column; }
@@ -480,11 +481,11 @@ button:disabled {
 .aurora-layer::after {
   content: '';
   position: absolute;
-  width: 65vmax;
-  height: 65vmax;
+  width: 60vmax;
+  height: 60vmax;
   border-radius: 50%;
-  filter: blur(90px);
-  opacity: 0.35;
+  filter: blur(110px);
+  opacity: 0.14;
   will-change: transform;
 }
 
@@ -492,86 +493,85 @@ button:disabled {
   top: -20%;
   left: -10%;
   background: radial-gradient(circle at 30% 30%, var(--accent-sky), transparent 70%);
-  animation: auroraDrift 26s ease-in-out infinite;
+  animation: auroraDrift 40s ease-in-out infinite;
 }
 
 .aurora-layer::after {
   bottom: -25%;
   right: -10%;
   background: radial-gradient(circle at 70% 70%, var(--accent-indigo), transparent 70%);
-  animation: auroraDriftReverse 30s ease-in-out infinite;
+  animation: auroraDriftReverse 46s ease-in-out infinite;
 }
 
 .aurora-layer .aurora-blob-3 {
-  position: absolute;
-  top: 35%;
-  left: 40%;
-  width: 50vmax;
-  height: 50vmax;
-  border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.18;
-  background: radial-gradient(circle, #ec4899, transparent 70%);
-  animation: auroraDrift 34s ease-in-out infinite reverse;
+  display: none;
 }
 
 .aurora-layer .grain-overlay {
-  position: absolute;
-  inset: 0;
-  opacity: 0.045;
-  mix-blend-mode: overlay;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px);
-  background-size: 3px 3px;
+  display: none;
 }
 
 .aurora-layer .vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, transparent 55%, rgba(2, 6, 20, 0.55) 100%);
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(2, 6, 20, 0.5) 100%);
 }
 
-/* Gradient text */
+/* Gradient text (static — no looping animation, keeps things calm) */
 .text-gradient-brand {
-  background: linear-gradient(90deg, #38bdf8, #818cf8, #f472b6);
-  background-size: 200% auto;
+  background: linear-gradient(90deg, #38bdf8, #818cf8);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: gradientShift 6s ease infinite;
-}
-
-@keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
 }
 
 /* Glass panel surfaces */
 .glass-panel {
-  background: linear-gradient(180deg, rgba(30, 41, 59, 0.55), rgba(15, 23, 42, 0.55));
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.6));
   backdrop-filter: blur(16px) saturate(140%);
   -webkit-backdrop-filter: blur(16px) saturate(140%);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Glowing logo ring */
+/* Soft static logo glow (no pulsing — one calm accent, not a light show) */
 .logo-glow-ring {
   position: relative;
 }
 .logo-glow-ring::before {
   content: '';
   position: absolute;
-  inset: -6px;
+  inset: -5px;
   border-radius: inherit;
-  background: linear-gradient(135deg, var(--accent-sky), var(--accent-indigo), #ec4899);
-  filter: blur(8px);
-  opacity: 0.55;
+  background: linear-gradient(135deg, var(--accent-sky), var(--accent-indigo));
+  filter: blur(7px);
+  opacity: 0.35;
   z-index: -1;
-  animation: logoPulse 3s ease-in-out infinite;
 }
 
-@keyframes logoPulse {
-  0%, 100% { opacity: 0.4; transform: scale(0.96); }
-  50% { opacity: 0.7; transform: scale(1.06); }
+/* Consistent toolbar icon button */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.icon-btn:hover {
+  background: rgba(51, 65, 85, 0.9);
+  color: var(--text-main);
+  border-color: rgba(100, 116, 139, 0.6);
+}
+.icon-btn-active {
+  background: rgba(6, 95, 70, 0.4);
+  color: #6ee7b7;
+  border-color: rgba(16, 185, 129, 0.4);
+}
+.icon-btn-active:hover {
+  background: rgba(6, 95, 70, 0.55);
+  color: #6ee7b7;
 }
 
 /* Live status dot with glow */

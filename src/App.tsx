@@ -70,7 +70,7 @@ export const App: React.FC = () => {
       {/* Main 3-Panel Workspace */}
       <main className="flex-1 flex flex-row overflow-hidden relative z-10">
         {/* Left: Chat & Voice */}
-        <ChatPanel />
+        <ChatPanel onOpenSettings={() => setIsSettingsOpen(true)} />
 
         {/* Center: The Whiteboard */}
         <Whiteboard />

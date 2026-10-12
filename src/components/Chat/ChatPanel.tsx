@@ -5,16 +5,23 @@ import { useTutorStore } from '../../store/useTutorStore';
 import { SuggestedPrompts } from './SuggestedPrompts';
 import { MessageItem } from './MessageItem';
 import { startVoiceRecognition } from '../../services/audioService';
-import { Send, Mic, MicOff, PlusCircle, MessageSquare } from 'lucide-react';
+import { Send, Mic, MicOff, PlusCircle, MessageSquare, KeyRound } from 'lucide-react';
 
-export const ChatPanel: React.FC = () => {
+interface ChatPanelProps {
+  onOpenSettings: () => void;
+}
+
+export const ChatPanel: React.FC<ChatPanelProps> = ({ onOpenSettings }) => {
   const {
     messages,
     sendMessage,
     isGenerating,
     createNewSession,
-    activeProvider
+    activeProvider,
+    settings
   } = useTutorStore();
+
+  const hasAnyKey = Object.values(settings.keys).some(k => !!k && k.trim().length > 0);
 
   const [input, setInput] = useState('');
   const [isRecording, setIsRecording] = useState(false);
@@ -60,7 +67,7 @@ export const ChatPanel: React.FC = () => {
       {/* Chat Header */}
       <div className="p-3.5 border-b border-slate-800/60 flex items-center justify-between bg-slate-900/40 backdrop-blur-md">
         <div className="flex items-center gap-2">
-          <div className="logo-glow-ring w-7 h-7 rounded-lg bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400">
+          <div className="w-7 h-7 rounded-lg bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400">
             <MessageSquare className="w-4 h-4" />
           </div>
           <div>
@@ -81,6 +88,19 @@ export const ChatPanel: React.FC = () => {
           <span>New</span>
         </button>
       </div>
+
+      {/* No-API-key notice: without a key, answers are limited to a handful of demo topics */}
+      {!hasAnyKey && (
+        <button
+          onClick={onOpenSettings}
+          className="mx-3 mt-3 p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-left flex items-start gap-2 hover:bg-amber-500/15 transition-colors"
+        >
+          <KeyRound className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+          <span className="text-[11px] text-amber-200 leading-relaxed">
+            <span className="font-semibold">No API key set.</span> Running a limited offline demo (math + 5 sample topics only). Add a free Gemini or Claude key for real answers on any topic.
+          </span>
+        </button>
+      )}
 
       {/* Suggested Prompts */}
       <SuggestedPrompts />

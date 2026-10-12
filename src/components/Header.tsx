@@ -7,8 +7,6 @@ import {
   Command,
   Download,
   Settings as SettingsIcon,
-  Moon,
-  Sun,
   Palette
 } from 'lucide-react';
 
@@ -47,7 +45,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Live Provider Router Status Badge */}
-        <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-800/60 border border-slate-700/80 text-xs shine-hover">
+        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-800/60 border border-slate-700/80 text-xs">
           <span className="w-2 h-2 rounded-full bg-emerald-400 live-dot-glow" />
           <span className="text-slate-300 font-medium">{activeProvider}</span>
           <span className="text-[10px] text-slate-400">• Free Tier</span>
@@ -59,7 +57,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Command Palette shortcut button */}
         <button
           onClick={onOpenPalette}
-          className="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/60 text-xs transition-all"
+          className="icon-btn flex items-center gap-1.5 px-2.5 py-1.5 text-xs"
           title="Command Palette (Cmd+K)"
         >
           <Command className="w-3.5 h-3.5 text-slate-400" />
@@ -69,11 +67,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Theme quick switch */}
         <button
           onClick={() => setTheme(isChalkboard ? 'whiteboard' : 'chalkboard')}
-          className={`p-2 rounded-lg border text-xs transition-all ${
-            isChalkboard
-              ? 'bg-emerald-950/60 text-emerald-300 border-emerald-800/60'
-              : 'bg-slate-800 text-slate-300 border-slate-700 hover:text-white'
-          }`}
+          className={`icon-btn p-2 ${isChalkboard ? 'icon-btn-active' : ''}`}
           title="Switch theme (Whiteboard / Chalkboard)"
         >
           <Palette className="w-4 h-4" />
@@ -82,7 +76,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Export Modal button */}
         <button
           onClick={onOpenExport}
-          className="hover-lift p-2 rounded-lg bg-slate-800/70 hover:bg-slate-750 text-slate-300 hover:text-white border border-slate-700 transition-all"
+          className="icon-btn p-2"
           title="Export PNG, SVG, PDF or Session JSON"
         >
           <Download className="w-4 h-4" />
@@ -91,7 +85,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Settings button */}
         <button
           onClick={onOpenSettings}
-          className="hover-lift p-2 rounded-lg bg-slate-800/70 hover:bg-slate-750 text-slate-300 hover:text-white border border-slate-700 transition-all"
+          className="icon-btn p-2"
           title="Settings & API Secrets"
         >
           <SettingsIcon className="w-4 h-4" />

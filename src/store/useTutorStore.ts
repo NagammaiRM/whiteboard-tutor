@@ -188,7 +188,7 @@ export const useTutorStore = create<TutorState>((set, get) => ({
       commands: []
     };
 
-    set({ messages: [...get().messages, userMsg, initialAssistantMsg] });
+    set({ messages: [...get().messages, initialAssistantMsg] });
 
     await streamTutorCommands(
       [

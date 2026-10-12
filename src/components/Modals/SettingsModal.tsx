@@ -50,7 +50,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
         {/* Header */}
         <div className="p-4 border-b border-slate-800/60 flex items-center justify-between bg-slate-950/40">
           <div className="flex items-center gap-2">
-            <div className="logo-glow-ring w-7 h-7 rounded-lg bg-sky-500/20 text-sky-400 border border-sky-500/30 flex items-center justify-center">
+            <div className="w-7 h-7 rounded-lg bg-sky-500/20 text-sky-400 border border-sky-500/30 flex items-center justify-center">
               <Cpu className="w-4 h-4" />
             </div>
             <div>
