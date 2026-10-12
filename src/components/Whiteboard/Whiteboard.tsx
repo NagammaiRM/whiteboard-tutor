@@ -27,7 +27,7 @@ export const Whiteboard: React.FC = () => {
   const isChalkboard = settings.theme === 'chalkboard';
 
   return (
-    <div className="whiteboard-container flex-1 flex flex-col h-full bg-slate-950 overflow-hidden relative select-none">
+    <div className="whiteboard-container flex-1 flex flex-col h-full bg-transparent overflow-hidden relative select-none">
       {/* Top Toolbar */}
       <CanvasToolbar />
 
@@ -36,13 +36,17 @@ export const Whiteboard: React.FC = () => {
         <div
           className={`board-frame relative w-full h-full max-w-[1200px] max-h-[840px] flex items-center justify-center rounded-xl overflow-hidden transition-all duration-300 shadow-2xl border ${
             isChalkboard
-              ? 'bg-[#13221c] border-emerald-900/60 shadow-emerald-950/40'
-              : 'bg-[#f8fafc] border-slate-300 shadow-slate-950/50'
+              ? 'border-emerald-900/60'
+              : 'border-slate-300'
           }`}
           style={{
+            backgroundColor: isChalkboard ? '#13221c' : '#f8fafc',
+            boxShadow: isChalkboard
+              ? '0 25px 60px -15px rgba(16, 185, 129, 0.25), 0 0 0 1px rgba(16, 185, 129, 0.1)'
+              : '0 25px 60px -15px rgba(56, 189, 248, 0.25), 0 0 0 1px rgba(56, 189, 248, 0.08)',
             backgroundImage: isChalkboard
               ? 'radial-gradient(circle at 50% 50%, rgba(20, 45, 36, 0.95), rgba(10, 22, 17, 1))'
-              : 'none'
+              : 'radial-gradient(circle at 50% 0%, #ffffff, #f1f5f9 80%)'
           }}
         >
           <svg
@@ -212,7 +216,7 @@ export const Whiteboard: React.FC = () => {
       </div>
 
       {/* Bottom Board Status Bar */}
-      <div className="board-status-bar h-8 px-4 flex items-center justify-between border-t border-slate-800 bg-slate-900/90 text-xs text-slate-400">
+      <div className="board-status-bar h-8 px-4 flex items-center justify-between border-t border-slate-800/60 glass-panel text-xs text-slate-400">
         <div className="flex items-center gap-2">
           {isGenerating ? (
             <div className="flex items-center gap-1.5 text-sky-400">

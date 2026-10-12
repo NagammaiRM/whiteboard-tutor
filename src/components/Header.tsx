@@ -27,17 +27,17 @@ export const Header: React.FC<HeaderProps> = ({
   const isChalkboard = settings.theme === 'chalkboard';
 
   return (
-    <header className="app-header h-14 px-4 bg-slate-900/95 border-b border-slate-800 flex items-center justify-between select-none z-20">
+    <header className="app-header h-14 px-4 glass-panel border-b border-slate-800/60 flex items-center justify-between select-none z-20">
       {/* Brand & Logo */}
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 p-[1.5px] shadow-lg shadow-sky-500/20">
+        <div className="logo-glow-ring w-8 h-8 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 p-[1.5px] shadow-lg shadow-sky-500/20">
           <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center text-sky-400">
             <Sparkles className="w-4 h-4" />
           </div>
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="font-extrabold text-sm md:text-base text-white tracking-tight">
+            <h1 className="font-extrabold text-sm md:text-base text-gradient-brand tracking-tight">
               Whiteboard Tutor
             </h1>
             <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/30 font-mono font-medium">
@@ -47,8 +47,8 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Live Provider Router Status Badge */}
-        <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-800/80 border border-slate-700/80 text-xs">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+        <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-800/60 border border-slate-700/80 text-xs shine-hover">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 live-dot-glow" />
           <span className="text-slate-300 font-medium">{activeProvider}</span>
           <span className="text-[10px] text-slate-400">• Free Tier</span>
         </div>
@@ -82,7 +82,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Export Modal button */}
         <button
           onClick={onOpenExport}
-          className="p-2 rounded-lg bg-slate-800 hover:bg-slate-750 text-slate-300 hover:text-white border border-slate-700 transition-all"
+          className="hover-lift p-2 rounded-lg bg-slate-800/70 hover:bg-slate-750 text-slate-300 hover:text-white border border-slate-700 transition-all"
           title="Export PNG, SVG, PDF or Session JSON"
         >
           <Download className="w-4 h-4" />
@@ -91,7 +91,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Settings button */}
         <button
           onClick={onOpenSettings}
-          className="p-2 rounded-lg bg-slate-800 hover:bg-slate-750 text-slate-300 hover:text-white border border-slate-700 transition-all"
+          className="hover-lift p-2 rounded-lg bg-slate-800/70 hover:bg-slate-750 text-slate-300 hover:text-white border border-slate-700 transition-all"
           title="Settings & API Secrets"
         >
           <SettingsIcon className="w-4 h-4" />

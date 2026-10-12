@@ -56,17 +56,17 @@ export const ChatPanel: React.FC = () => {
   };
 
   return (
-    <div className="chat-panel w-80 md:w-96 flex flex-col h-full bg-slate-900 border-r border-slate-800 z-10">
+    <div className="chat-panel glass-panel w-80 md:w-96 flex flex-col h-full border-r border-slate-800/60 z-10">
       {/* Chat Header */}
-      <div className="p-3.5 border-b border-slate-800 flex items-center justify-between bg-slate-900/90 backdrop-blur-md">
+      <div className="p-3.5 border-b border-slate-800/60 flex items-center justify-between bg-slate-900/40 backdrop-blur-md">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400">
+          <div className="logo-glow-ring w-7 h-7 rounded-lg bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400">
             <MessageSquare className="w-4 h-4" />
           </div>
           <div>
             <h2 className="text-sm font-bold text-white tracking-tight">Tutor Chat</h2>
             <div className="text-[10px] text-sky-400 font-medium flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 live-dot-glow" />
               <span>{activeProvider}</span>
             </div>
           </div>
@@ -136,7 +136,7 @@ export const ChatPanel: React.FC = () => {
             <button
               onClick={handleSend}
               disabled={!input.trim() || isGenerating}
-              className="p-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-white font-medium disabled:opacity-40 disabled:cursor-not-allowed shadow-md shadow-sky-500/20 transition-all"
+              className="p-1.5 rounded-lg btn-gradient text-white font-medium disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none"
               title="Send to Whiteboard Tutor"
             >
               <Send className="w-3.5 h-3.5" />

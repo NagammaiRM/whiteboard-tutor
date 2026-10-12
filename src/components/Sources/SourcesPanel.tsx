@@ -14,9 +14,9 @@ export const SourcesPanel: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabKey>('docs');
 
   return (
-    <div className="sources-panel w-80 md:w-96 flex flex-col h-full bg-slate-900 border-l border-slate-800 z-10">
+    <div className="sources-panel glass-panel w-80 md:w-96 flex flex-col h-full border-l border-slate-800/60 z-10">
       {/* Tab Navigation Header */}
-      <div className="flex items-center border-b border-slate-800 bg-slate-950/80 px-2 py-1.5 gap-1 overflow-x-auto select-none">
+      <div className="flex items-center border-b border-slate-800/60 bg-slate-950/40 px-2 py-1.5 gap-1 overflow-x-auto select-none">
         <button
           onClick={() => setActiveTab('docs')}
           className={`px-2.5 py-1.5 rounded-md flex items-center gap-1.5 text-xs font-medium transition-all ${

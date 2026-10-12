@@ -90,7 +90,7 @@ export type Flashcard = {
 };
 
 export type TutorSettings = {
-  provider: 'auto' | 'gemini' | 'groq' | 'openrouter';
+  provider: 'auto' | 'gemini' | 'anthropic' | 'groq' | 'openrouter';
   model: string;
   handFont: string;
   speed: number; // 0.5, 1, 2, 999
@@ -104,6 +104,7 @@ export type TutorSettings = {
   explanationLevel: 'beginner' | 'intermediate' | 'advanced';
   keys: {
     gemini?: string;
+    anthropic?: string;
     groq?: string;
     openrouter?: string;
   };

@@ -21,6 +21,7 @@ const DEFAULT_SETTINGS: TutorSettings = {
   explanationLevel: 'intermediate',
   keys: {
     gemini: '',
+    anthropic: '',
     groq: '',
     openrouter: ''
   }

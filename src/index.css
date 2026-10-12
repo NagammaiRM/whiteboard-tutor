@@ -450,3 +450,189 @@ button:disabled {
   .chat-panel { width: 18rem; }
   .sources-panel { width: 18rem; }
 }
+
+/* ============================================================ */
+/* Premium Visual Upgrade — aurora backdrop, glass, glow, shine */
+/* ============================================================ */
+
+@keyframes auroraDrift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(2%, -3%, 0) scale(1.08); }
+  66% { transform: translate3d(-3%, 2%, 0) scale(0.96); }
+}
+
+@keyframes auroraDriftReverse {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(-3%, 3%, 0) scale(0.94); }
+  66% { transform: translate3d(3%, -2%, 0) scale(1.06); }
+}
+
+.aurora-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: var(--bg-main);
+}
+
+.aurora-layer::before,
+.aurora-layer::after {
+  content: '';
+  position: absolute;
+  width: 65vmax;
+  height: 65vmax;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.35;
+  will-change: transform;
+}
+
+.aurora-layer::before {
+  top: -20%;
+  left: -10%;
+  background: radial-gradient(circle at 30% 30%, var(--accent-sky), transparent 70%);
+  animation: auroraDrift 26s ease-in-out infinite;
+}
+
+.aurora-layer::after {
+  bottom: -25%;
+  right: -10%;
+  background: radial-gradient(circle at 70% 70%, var(--accent-indigo), transparent 70%);
+  animation: auroraDriftReverse 30s ease-in-out infinite;
+}
+
+.aurora-layer .aurora-blob-3 {
+  position: absolute;
+  top: 35%;
+  left: 40%;
+  width: 50vmax;
+  height: 50vmax;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.18;
+  background: radial-gradient(circle, #ec4899, transparent 70%);
+  animation: auroraDrift 34s ease-in-out infinite reverse;
+}
+
+.aurora-layer .grain-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+
+.aurora-layer .vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(2, 6, 20, 0.55) 100%);
+}
+
+/* Gradient text */
+.text-gradient-brand {
+  background: linear-gradient(90deg, #38bdf8, #818cf8, #f472b6);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientShift 6s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Glass panel surfaces */
+.glass-panel {
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.55), rgba(15, 23, 42, 0.55));
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Glowing logo ring */
+.logo-glow-ring {
+  position: relative;
+}
+.logo-glow-ring::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--accent-sky), var(--accent-indigo), #ec4899);
+  filter: blur(8px);
+  opacity: 0.55;
+  z-index: -1;
+  animation: logoPulse 3s ease-in-out infinite;
+}
+
+@keyframes logoPulse {
+  0%, 100% { opacity: 0.4; transform: scale(0.96); }
+  50% { opacity: 0.7; transform: scale(1.06); }
+}
+
+/* Live status dot with glow */
+.live-dot-glow {
+  box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.6);
+  animation: liveDotPulse 2s ease-out infinite;
+}
+@keyframes liveDotPulse {
+  0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.55); }
+  70% { box-shadow: 0 0 0 6px rgba(52, 211, 153, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
+}
+
+/* Shine-sweep hover effect for pill buttons / chips */
+.shine-hover {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.shine-hover::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+  z-index: 1;
+}
+.shine-hover:hover::after {
+  left: 130%;
+}
+
+/* Gradient call-to-action button */
+.btn-gradient {
+  background: linear-gradient(135deg, var(--accent-sky), var(--accent-indigo));
+  box-shadow: 0 4px 20px -4px rgba(56, 189, 248, 0.45);
+  transition: box-shadow 0.25s ease, transform 0.2s ease, filter 0.2s ease;
+}
+.btn-gradient:hover {
+  box-shadow: 0 6px 28px -4px rgba(99, 102, 241, 0.6);
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+.btn-gradient:active {
+  transform: translateY(0);
+}
+
+/* Upgraded scrollbar with gradient thumb */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--accent-sky), var(--accent-indigo));
+  opacity: 0.5;
+}
+
+/* Card hover lift */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -8px rgba(2, 6, 23, 0.6);
+}

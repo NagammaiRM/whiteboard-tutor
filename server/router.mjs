@@ -60,12 +60,16 @@ export async function handleTutorStream(req, res) {
   };
 
   const geminiKey = keys.gemini || process.env.GEMINI_KEY || process.env.VITE_GEMINI_KEY;
+  const anthropicKey = keys.anthropic || process.env.ANTHROPIC_KEY || process.env.VITE_ANTHROPIC_KEY;
   const groqKey = keys.groq || process.env.GROQ_KEY || process.env.VITE_GROQ_KEY;
   const openRouterKey = keys.openrouter || process.env.OPENROUTER_KEY || process.env.VITE_OPENROUTER_KEY;
 
   const providers = [];
   if (provider === 'gemini' || provider === 'auto') {
     if (geminiKey) providers.push({ id: 'gemini', key: geminiKey, name: 'Google Gemini' });
+  }
+  if (provider === 'anthropic' || provider === 'auto') {
+    if (anthropicKey) providers.push({ id: 'anthropic', key: anthropicKey, name: 'Anthropic Claude' });
   }
   if (provider === 'groq' || provider === 'auto') {
     if (groqKey) providers.push({ id: 'groq', key: groqKey, name: 'Groq (Llama 3.3)' });
@@ -144,6 +148,31 @@ async function callProvider(provider, messages, sourceContext, isAnnotation, pag
 
     const data = await resp.json();
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    return parseLinesToStream(text);
+  }
+
+  if (provider.id === 'anthropic') {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': provider.key,
+        'anthropic-version': '2023-06-01',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-5',
+        max_tokens: 2048,
+        temperature: 0.2,
+        system: promptContext,
+        messages: messages.map(m => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content }))
+      })
+    });
+
+    if (resp.status === 429) throw new Error('Anthropic 429 Rate Limit');
+    if (!resp.ok) throw new Error(`Anthropic error: ${resp.statusText}`);
+
+    const data = await resp.json();
+    const text = (data?.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n');
     return parseLinesToStream(text);
   }
 

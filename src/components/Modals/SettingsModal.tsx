@@ -13,6 +13,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
   const { settings, updateSettings } = useTutorStore();
 
   const [geminiKey, setGeminiKey] = useState(settings.keys.gemini || '');
+  const [anthropicKey, setAnthropicKey] = useState(settings.keys.anthropic || '');
   const [groqKey, setGroqKey] = useState(settings.keys.groq || '');
   const [openRouterKey, setOpenRouterKey] = useState(settings.keys.openrouter || '');
   const [provider, setProvider] = useState(settings.provider);
@@ -31,6 +32,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
       ttsRate,
       keys: {
         gemini: geminiKey.trim(),
+        anthropic: anthropicKey.trim(),
         groq: groqKey.trim(),
         openrouter: openRouterKey.trim()
       }
@@ -44,11 +46,11 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fadeIn">
-      <div className="w-full max-w-lg rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div className="w-full max-w-lg rounded-2xl glass-panel shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/60">
+        <div className="p-4 border-b border-slate-800/60 flex items-center justify-between bg-slate-950/40">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-sky-500/20 text-sky-400 border border-sky-500/30 flex items-center justify-center">
+            <div className="logo-glow-ring w-7 h-7 rounded-lg bg-sky-500/20 text-sky-400 border border-sky-500/30 flex items-center justify-center">
               <Cpu className="w-4 h-4" />
             </div>
             <div>
@@ -89,8 +91,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
               onChange={(e: any) => setProvider(e.target.value)}
               className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-slate-200 outline-none focus:border-sky-500"
             >
-              <option value="auto">Auto Router (Gemini → Groq → OpenRouter on 429)</option>
+              <option value="auto">Auto Router (Gemini → Claude → Groq → OpenRouter on 429)</option>
               <option value="gemini">Google Gemini (Gemini 2.5 / 2.0 Flash)</option>
+              <option value="anthropic">Anthropic Claude (Sonnet 4.5)</option>
               <option value="groq">Groq (Llama 3.3 70B, Qwen3)</option>
               <option value="openrouter">OpenRouter (Free Tier Models)</option>
             </select>
@@ -108,6 +111,20 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
                 value={geminiKey}
                 onChange={(e) => setGeminiKey(e.target.value)}
                 placeholder="AIzaSy... (free in Google AI Studio)"
+                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-slate-200 outline-none focus:border-sky-500 font-mono"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="font-semibold text-slate-300 flex items-center gap-1.5">
+                <Key className="w-3.5 h-3.5 text-orange-400" />
+                <span>Anthropic Claude API Key</span>
+              </label>
+              <input
+                type="password"
+                value={anthropicKey}
+                onChange={(e) => setAnthropicKey(e.target.value)}
+                placeholder="sk-ant-... (console.anthropic.com)"
                 className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-slate-200 outline-none focus:border-sky-500 font-mono"
               />
             </div>
@@ -193,7 +210,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-slate-800 bg-slate-950/60 flex items-center justify-between">
+        <div className="p-4 border-t border-slate-800/60 bg-slate-950/40 flex items-center justify-between">
           <span className="text-[11px] text-slate-400">Preferences persist in IndexedDB</span>
           <div className="flex gap-2">
             <button
@@ -204,7 +221,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
             </button>
             <button
               onClick={handleSave}
-              className="px-4 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-white font-semibold transition-all flex items-center gap-1.5 shadow-md shadow-sky-500/20"
+              className="px-4 py-1.5 rounded-lg btn-gradient text-white font-semibold flex items-center gap-1.5"
             >
               {savedToast ? <Check className="w-4 h-4" /> : null}
               <span>{savedToast ? 'Saved!' : 'Save Changes'}</span>

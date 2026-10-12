@@ -16,7 +16,7 @@ export const SuggestedPrompts: React.FC = () => {
   const { sendMessage, isGenerating } = useTutorStore();
 
   return (
-    <div className="suggested-prompts p-3 bg-slate-900/60 border-b border-slate-800">
+    <div className="suggested-prompts p-3 bg-slate-900/30 border-b border-slate-800/60">
       <div className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-400 mb-2 uppercase tracking-wider">
         <Sparkles className="w-3.5 h-3.5 text-sky-400" />
         <span>Try an interactive lesson</span>
@@ -29,7 +29,7 @@ export const SuggestedPrompts: React.FC = () => {
               key={idx}
               onClick={() => sendMessage(item.query)}
               disabled={isGenerating}
-              className="px-2.5 py-1 rounded-full text-xs bg-slate-800 hover:bg-slate-700/80 text-slate-300 hover:text-sky-300 border border-slate-700/60 hover:border-sky-500/40 transition-all flex items-center gap-1.5 disabled:opacity-40"
+              className="shine-hover hover-lift px-2.5 py-1 rounded-full text-xs bg-slate-800/70 hover:bg-slate-700/80 text-slate-300 hover:text-sky-300 border border-slate-700/60 hover:border-sky-500/40 transition-all flex items-center gap-1.5 disabled:opacity-40"
             >
               <Icon className="w-3 h-3 text-sky-400" />
               <span>{item.label}</span>

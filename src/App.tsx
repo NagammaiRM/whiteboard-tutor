@@ -50,16 +50,25 @@ export const App: React.FC = () => {
   }, [undoTurn, skipAnimation]);
 
   return (
-    <div className="whiteboard-app flex flex-col h-full w-full bg-slate-950 overflow-hidden text-slate-100">
+    <div className="whiteboard-app flex flex-col h-full w-full overflow-hidden text-slate-100 relative">
+      {/* Ambient animated aurora backdrop */}
+      <div className="aurora-layer">
+        <div className="aurora-blob-3" />
+        <div className="grain-overlay" />
+        <div className="vignette" />
+      </div>
+
       {/* Top Header */}
-      <Header
-        onOpenSettings={() => setIsSettingsOpen(true)}
-        onOpenExport={() => setIsExportOpen(true)}
-        onOpenPalette={() => setIsPaletteOpen(true)}
-      />
+      <div className="relative z-10">
+        <Header
+          onOpenSettings={() => setIsSettingsOpen(true)}
+          onOpenExport={() => setIsExportOpen(true)}
+          onOpenPalette={() => setIsPaletteOpen(true)}
+        />
+      </div>
 
       {/* Main 3-Panel Workspace */}
-      <main className="flex-1 flex flex-row overflow-hidden relative">
+      <main className="flex-1 flex flex-row overflow-hidden relative z-10">
         {/* Left: Chat & Voice */}
         <ChatPanel />
 
