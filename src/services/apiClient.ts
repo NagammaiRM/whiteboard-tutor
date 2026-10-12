@@ -26,6 +26,7 @@ export async function streamTutorCommands(
         provider: settings.provider,
         keys: settings.keys,
         explanationLevel: settings.explanationLevel || 'intermediate',
+        teachingMode: settings.teachingMode || 'direct',
         sourceContext,
         isAnnotation,
         page

@@ -102,6 +102,7 @@ export type TutorSettings = {
   ttsRate: number;
   ttsPitch: number;
   explanationLevel: 'beginner' | 'intermediate' | 'advanced';
+  teachingMode: 'direct' | 'socratic';
   keys: {
     gemini?: string;
     anthropic?: string;

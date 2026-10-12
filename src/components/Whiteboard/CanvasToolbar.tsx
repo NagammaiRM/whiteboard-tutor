@@ -8,12 +8,14 @@ import {
   RotateCcw,
   Undo2,
   Trash2,
-  Play,
   FastForward,
   Sparkles,
-  Maximize2,
-  FileText
+  GraduationCap,
+  Lightbulb
 } from 'lucide-react';
+
+const EXPLANATION_LEVELS: ('beginner' | 'intermediate' | 'advanced')[] = ['beginner', 'intermediate', 'advanced'];
+const LEVEL_LABEL: Record<string, string> = { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced' };
 
 export const CanvasToolbar: React.FC = () => {
   const {
@@ -21,6 +23,8 @@ export const CanvasToolbar: React.FC = () => {
     setTheme,
     setGridType,
     setSpeed,
+    setExplanationLevel,
+    setTeachingMode,
     toggleWobble,
     replayTurn,
     skipAnimation,
@@ -96,6 +100,35 @@ export const CanvasToolbar: React.FC = () => {
           title="Toggle hand-drawn SVG turbulence wobble"
         >
           <span>Wobble</span>
+        </button>
+
+        <div className="h-4 w-[1px] bg-slate-700 mx-1" />
+
+        {/* Explanation level cycler */}
+        <button
+          onClick={() => {
+            const next = EXPLANATION_LEVELS[(EXPLANATION_LEVELS.indexOf(settings.explanationLevel) + 1) % EXPLANATION_LEVELS.length];
+            setExplanationLevel(next);
+          }}
+          className="px-2 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-800 border border-slate-700/50 flex items-center gap-1.5 transition-all"
+          title="Cycle explanation level: Beginner / Intermediate / Advanced"
+        >
+          <GraduationCap className="w-3.5 h-3.5" />
+          <span>{LEVEL_LABEL[settings.explanationLevel]}</span>
+        </button>
+
+        {/* Teaching mode toggle: Direct answers vs Socratic hints */}
+        <button
+          onClick={() => setTeachingMode(settings.teachingMode === 'socratic' ? 'direct' : 'socratic')}
+          className={`px-2 py-1.5 rounded-md flex items-center gap-1.5 transition-all ${
+            settings.teachingMode === 'socratic'
+              ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+              : 'text-slate-300 hover:text-white hover:bg-slate-800 border border-slate-700/50'
+          }`}
+          title="Toggle Direct Answers vs Socratic (hint-by-hint, needs a real AI key)"
+        >
+          <Lightbulb className="w-3.5 h-3.5" />
+          <span>{settings.teachingMode === 'socratic' ? 'Socratic Hints' : 'Direct Answers'}</span>
         </button>
       </div>
 

@@ -42,7 +42,8 @@ export async function handleTutorStream(req, res) {
     sourceContext = null,
     isAnnotation = false,
     page = 1,
-    explanationLevel = 'intermediate'
+    explanationLevel = 'intermediate',
+    teachingMode = 'direct'
   } = req.body || {};
 
   // Set SSE headers for streaming JSONL
@@ -83,7 +84,7 @@ export async function handleTutorStream(req, res) {
   for (const p of providers) {
     try {
       sendLine({ t: 'status', provider: p.name, message: `Connecting to ${p.name}...` });
-      const stream = await callProvider(p, messages, sourceContext, isAnnotation, page, explanationLevel);
+      const stream = await callProvider(p, messages, sourceContext, isAnnotation, page, explanationLevel, teachingMode);
       if (stream) {
         for await (const chunk of stream) {
           sendLine(chunk);
@@ -101,13 +102,13 @@ export async function handleTutorStream(req, res) {
   // If no providers configured or all failed, stream using smart built-in tutor engine!
   if (!providerSuccess) {
     const noKeysConfigured = providers.length === 0;
-    sendLine({
-      t: 'status',
-      provider: 'Offline Demo (no API key)',
-      message: noKeysConfigured
-        ? 'No API key configured — using the limited offline demo. Add a free key in Settings for real answers on any topic.'
-        : `Generating lesson (${explanationLevel} level)...`
-    });
+    let statusMessage = noKeysConfigured
+      ? 'No API key configured — using the limited offline demo. Add a free key in Settings for real answers on any topic.'
+      : `Generating lesson (${explanationLevel} level)...`;
+    if (teachingMode === 'socratic') {
+      statusMessage += ' Note: Socratic hint-by-hint mode needs a real AI key to work properly — showing the full worked solution instead.';
+    }
+    sendLine({ t: 'status', provider: 'Offline Demo (no API key)', message: statusMessage });
     await streamBuiltInSimulation(messages, sourceContext, isAnnotation, page, sendLine, explanationLevel);
   }
 
@@ -116,12 +117,21 @@ export async function handleTutorStream(req, res) {
   res.end();
 }
 
-async function callProvider(provider, messages, sourceContext, isAnnotation, page, explanationLevel) {
+async function callProvider(provider, messages, sourceContext, isAnnotation, page, explanationLevel, teachingMode = 'direct') {
   let promptContext = SYSTEM_PROMPT;
   promptContext += `\nEXPLANATION LEVEL: ${explanationLevel.toUpperCase()}.
 - beginner (EL5): Simple analogies, everyday objects, count step-by-step, plain terms.
 - intermediate: Balanced, standard definitions, algebraic equations, steady pacing.
 - advanced: Rigorous mathematical proofs, formal axioms, deep technical derivations.`;
+
+  if (teachingMode === 'socratic') {
+    promptContext += `\nTEACHING MODE: SOCRATIC. You must NOT reveal the final answer right away.
+- On a NEW problem: draw the setup only (the given information, the diagram, the equation as stated). Do not solve it. End the turn with a "say" command asking the student a specific guiding question about the very next step, and a "note" command restating that question on the board. Do not include a highlighted final-answer box.
+- If the student's latest message looks like an attempt at a step (a number, an equation, or "is it X?"): judge it silently.
+  - If correct: briefly confirm why it's right, draw that step onto the board, and either ask the guiding question for the NEXT step, or — only if this was the last step — now reveal the final highlighted answer box.
+  - If incorrect: do NOT state or imply the correct value anywhere, including in "say" or "note" text. Give exactly ONE short, specific hint pointing at the likely error (e.g. "check the sign when you distribute the -2", "what happens to the exponent when you divide?") and ask them to try that step again. Do not draw a new attempt or an answer box on this turn.
+- If the student explicitly asks to just be given the answer, you may comply, but say you're skipping ahead first.`;
+  }
 
   if (isAnnotation) {
     promptContext += `\nAnnotation Mode: You are drawing directly on page ${page} of the open document. Use coordinates (1000x700). Anchor notes near the items in margins.`;

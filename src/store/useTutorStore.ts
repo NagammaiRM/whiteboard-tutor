@@ -19,6 +19,7 @@ const DEFAULT_SETTINGS: TutorSettings = {
   ttsRate: 1.05,
   ttsPitch: 1.0,
   explanationLevel: 'intermediate',
+  teachingMode: 'direct',
   keys: {
     gemini: '',
     anthropic: '',
@@ -72,6 +73,7 @@ interface TutorState {
   skipAnimation: () => void;
   setSpeed: (speed: number) => void;
   setExplanationLevel: (level: 'beginner' | 'intermediate' | 'advanced') => void;
+  setTeachingMode: (mode: 'direct' | 'socratic') => void;
   setTheme: (theme: 'whiteboard' | 'chalkboard' | 'midnight') => void;
   setGridType: (grid: 'none' | 'dots' | 'ruled' | 'grid') => void;
   toggleWobble: () => void;
@@ -373,6 +375,10 @@ export const useTutorStore = create<TutorState>((set, get) => ({
 
   setExplanationLevel: (explanationLevel: 'beginner' | 'intermediate' | 'advanced') => {
     set(state => ({ settings: { ...state.settings, explanationLevel } }));
+  },
+
+  setTeachingMode: (teachingMode: 'direct' | 'socratic') => {
+    set(state => ({ settings: { ...state.settings, teachingMode } }));
   },
 
   setTheme: (theme: 'whiteboard' | 'chalkboard' | 'midnight') => {
